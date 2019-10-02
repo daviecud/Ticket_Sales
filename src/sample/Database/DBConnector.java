@@ -1,8 +1,8 @@
 package sample.Database;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import com.sun.rowset.CachedRowSetImpl;
+
+import java.sql.*;
 
 public class DBConnector {
 
@@ -42,5 +42,52 @@ public class DBConnector {
         } catch (Exception e) {
             throw e;
         }
+    }
+
+    //Method to execute CRUD operations to database
+    public static ResultSet dbExecuteQuery(String sqlstmt) throws SQLException, ClassNotFoundException {
+        Statement stmt = null;
+        try {
+            getConnection();
+            stmt = connection.createStatement();
+            stmt.executeUpdate(sqlstmt);
+        } catch (SQLException e) {
+            System.out.println("Error during executing database Query" +e);
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if(stmt != null) {
+                stmt.close();
+            }
+            dbDisconnect();
+        }
+        return null;
+    }
+
+    //The method below will return a ResultSet to retrieving the records from the database
+    public static ResultSet dbExecute(String sqlQuery) throws SQLException, ClassNotFoundException {
+        Statement stmt = null;
+        ResultSet rst = null;
+        CachedRowSetImpl crs = null;
+
+        try {
+            getConnection();
+            stmt = connection.createStatement();
+            rst = stmt.executeQuery(sqlQuery);
+            crs = new CachedRowSetImpl();
+            crs.populate(rst);
+        } catch (SQLException e) {
+            System.out.println("Problem at dbExecute operation" + e);
+            throw e;
+        } finally {
+            if (rst != null) {
+                rst.close();
+            }
+            if (stmt != null) {
+                stmt.close();
+            }
+            dbDisconnect();
+        }
+        return crs;
     }
 }
