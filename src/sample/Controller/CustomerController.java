@@ -2,12 +2,20 @@ package sample.Controller;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import sample.Model.CustomerDAO;
 import sample.Model.CustomerModel;
 
+import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class CustomerController {
@@ -63,7 +71,7 @@ public class CustomerController {
         col_city.setCellValueFactory(cellData -> cellData.getValue().cityProperty());
         col_country.setCellValueFactory(cellData -> cellData.getValue().countryProperty());
         col_postC.setCellValueFactory(cellData ->  cellData.getValue().postCodeProperty());
-        col_email.setCellValueFactory(cellData -> cellData.getValue().postCodeProperty());
+        col_email.setCellValueFactory(cellData -> cellData.getValue().emailProperty());
         ObservableList<CustomerModel> list = CustomerDAO.getAllCustomers();
 
         populateTable(list);
@@ -75,4 +83,56 @@ public class CustomerController {
     }
 
     //TODO create methods for update, delete, search and add customer
+
+    @FXML
+    private void deleteCustomerById() throws SQLException, ClassNotFoundException {
+        try {
+            CustomerDAO.deleteCustomerById(Integer.parseInt(field_custId.getText()));
+
+            ObservableList<CustomerModel> custList = CustomerDAO.getAllCustomers();
+            populateTable(custList);
+            System.out.println("Successful deletion entry from database");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @FXML
+    private void insertCustomer() throws SQLException, ClassNotFoundException {
+//TODO CHANGE DATE in all classes to sql.Date!! GoodNight
+
+        try {
+            CustomerDAO.insertCustomer(field_fname.getText(), field_lname.getText(), Date.valueOf(dob_picker.valueProperty().get()), field_addr.getText(), field_city.getText(),
+                    field_country.getText(), field_postC.getText(), field_email.getText());
+
+            //Below will populate the table with a new version of the database after adding a new customer
+            ObservableList<CustomerModel> custList = CustomerDAO.getAllCustomers();
+            populateTable(custList);
+            System.out.println("Successful new entry to database");
+        } catch (SQLException e) {
+            System.out.println("Error occurred during adding new entry to database" +e);
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    public void goToStands(javafx.event.ActionEvent actionEvent) throws IOException {
+        Parent standsView = FXMLLoader.load(getClass().getResource("../View/stands.fxml"));
+        Scene standsScene = new Scene(standsView);
+
+        Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+        window.setScene(standsScene);
+        window.show();
+    }
+
+    public void goToDashboard(javafx.event.ActionEvent actionEvent) throws IOException {
+        Parent dashboardView = FXMLLoader.load(getClass().getResource("../View/customers.fxml"));
+        Scene dashboardScene = new Scene(dashboardView);
+
+        Stage window = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+
+        window.setScene(dashboardScene);
+        window.show();
+    }
 }

@@ -14,7 +14,7 @@ public class CustomerModel {
     private SimpleIntegerProperty id;
     private SimpleStringProperty firstName;
     private SimpleStringProperty lastName;
-    private SimpleObjectProperty <LocalDate> dob;
+    private Date dob;
     private SimpleStringProperty address;
     private SimpleStringProperty city;
     private SimpleStringProperty country;
@@ -26,7 +26,7 @@ public class CustomerModel {
         this.id = new SimpleIntegerProperty();
         this.firstName = new SimpleStringProperty();
         this.lastName = new SimpleStringProperty();
-        this.dob = new SimpleObjectProperty<>();
+
         this.address = new SimpleStringProperty();
         this.city = new SimpleStringProperty();
         this.country = new SimpleStringProperty();
@@ -70,16 +70,12 @@ public class CustomerModel {
         this.lastName.set(lastName);
     }
 
-    public LocalDate getDob() {
-        return dob.get();
-    }
-
-    public SimpleObjectProperty<LocalDate> dobProperty() {
+    public Date getDob() {
         return dob;
     }
 
-    public void setDob(LocalDate dob) {
-        this.dob.set(dob);
+    public void setDob(Date dob) {
+        this.dob = dob;
     }
 
     public String getAddress() {
@@ -151,6 +147,7 @@ public class CustomerModel {
                 ", dob=" + dob +
                 ", address=" + address +
                 ", city=" + city +
+                ", country=" + country +
                 ", postCode=" + postCode +
                 ", email=" + email +
                 '}';

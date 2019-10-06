@@ -5,12 +5,24 @@ import javafx.collections.ObservableList;
 import sample.Database.DBConnector;
 
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import static sample.Database.DBConnector.dbExecuteQuery;
 
 public class CustomerDAO {
+
+    public static void deleteCustomerById(int id) throws SQLException, ClassNotFoundException {
+        String sql = "DELETE FROM customer WHERE id = '"+id+"'";
+
+        try {
+            dbExecuteQuery(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
 
     public static void insertCustomer(String firstName, String lastName, Date dob, String address, String city,
                                       String country, String postCode, String email) throws SQLException, ClassNotFoundException {
@@ -51,7 +63,7 @@ public class CustomerDAO {
                 customer.setId(res.getInt("id"));
                 customer.setFirstName(res.getString("first_name"));
                 customer.setLastName(res.getString("last_name"));
-                customer.setDob(res.getDate("dob").toLocalDate());
+                customer.setDob(res.getDate("dob"));
                 customer.setAddress(res.getString("address"));
                 customer.setCity(res.getString("city"));
                 customer.setCountry(res.getString("country"));

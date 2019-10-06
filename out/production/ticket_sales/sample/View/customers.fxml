@@ -9,7 +9,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 
-
 <AnchorPane id="customers" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller.CustomerController">
    <children>
       <Label layoutX="307.0" layoutY="21.0" text="Customers Table">
@@ -43,7 +42,7 @@
       <TextField fx:id="field_country" layoutX="189.0" layoutY="390.0" promptText="Country" />
       <TextField fx:id="field_postC" layoutX="20.0" layoutY="433.0" promptText="Post Code" />
       <TextField fx:id="field_email" layoutX="185.0" layoutY="434.0" promptText="Email" />
-      <Button fx:id="addCustButton" id="addCustButton" layoutX="347.0" layoutY="302.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="135.0" style="-fx-background-color: Green;" text="Add Customer" textFill="WHITE">
+      <Button id="addCustButton" fx:id="addCustButton" layoutX="347.0" layoutY="302.0" mnemonicParsing="false" onAction="#insertCustomer" prefHeight="42.0" prefWidth="135.0" style="-fx-background-color: Green;" text="Add Customer" textFill="WHITE">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font>
@@ -53,7 +52,7 @@
             <Font name="System Bold Italic" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="deleteCustButton" layoutX="650.0" layoutY="301.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="135.0" style="-fx-background-color: Red;" text="Delete Customer" textFill="WHITE">
+      <Button fx:id="deleteCustButton" layoutX="650.0" layoutY="301.0" mnemonicParsing="false" onAction="#deleteCustomerById" prefHeight="42.0" prefWidth="135.0" style="-fx-background-color: Red;" text="Delete Customer" textFill="WHITE">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font>
